@@ -1,0 +1,5 @@
+.env
+env/
+app/__pycache__
+project/__pycache__
+app/migrations
