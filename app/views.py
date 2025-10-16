@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.models import User
-from django.contrib.auth import login as auth_login, logout
+from django.contrib.auth import login as auth_login, logout as auth_logout
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -43,10 +43,9 @@ def callback(request):
 
 def logout(request):
     request.session.clear()
-    logout(request)
-    return redirect(
-        f'https://{settings.AUTH0_DOMAIN}/v2/logout?client_id={settings.AUTH0_CLIENT_ID}&returnTo={request.build_absolute_uri(reverse("home"))}'
-    )
+    auth_logout(request)
+    logout_url = f'https://{settings.AUTH0_DOMAIN}/v2/logout?client_id={settings.AUTH0_CLIENT_ID}&returnTo={request.build_absolute_uri(reverse("home"))}'
+    return redirect(logout_url)
 
 class UserView(APIView):
     def get(self, request):
